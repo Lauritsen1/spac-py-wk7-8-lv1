@@ -7,12 +7,12 @@ class ProductRepository(Repository):
     def __init__(self):
         self.products: dict[str, Product] = {}
 
-    def get_by_id(self, id: str) -> Product:
-        if id not in self.products:
+    def get(self, product: Product) -> Product:
+        if product.id not in self.products:
             raise ValueError(
-                f'Failed to retrieve product: No product with ID {id} found.'
+                f'Failed to retrieve product: No product with ID {product.id} found.'
             )
-        return self.products[id]
+        return self.products[product.id]
 
     def get_all(self) -> list[Product]:
         if not self.products:

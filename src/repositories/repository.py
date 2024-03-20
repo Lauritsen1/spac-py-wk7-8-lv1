@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 class Repository(ABC):
 
     @abstractmethod
-    def get_by_id(self, id):
+    def get(self, entity):
         pass
 
     @abstractmethod
