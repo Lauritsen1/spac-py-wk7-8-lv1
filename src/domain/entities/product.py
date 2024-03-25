@@ -1,5 +1,22 @@
 from .category import Category
-from value_objects import Stock
+
+
+class Stock:
+    def __init__(self, quantity: int):
+        self.quantity = quantity
+
+    def add(self, quantity: int):
+        self.quantity += quantity
+
+    def remove(self, quantity: int):
+        if quantity > self.quantity:
+            raise ValueError(
+                f'Failed to remove {quantity}. Only {self.quantity} in stock.'
+            )
+        self.quantity -= quantity
+
+    def __str__(self):
+        return str(self.quantity)
 
 
 class Product:

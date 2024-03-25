@@ -11,8 +11,12 @@ def main():
         category,
         10,
     )
-    product.stock.decrease(5)
-    print(product.stock)
+
+    try:
+        product.stock.remove(11)
+        print(product.stock)
+    except ValueError as e:
+        print(e)
 
 
 if __name__ == '__main__':
