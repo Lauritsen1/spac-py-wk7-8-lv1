@@ -3,41 +3,33 @@ from domain.entities import Product
 from .repository import Repository
 
 
-class ProductRepository(Repository):
+class ProductRepository(Repository[Product]):
     def __init__(self):
         self.products: dict[str, Product] = {}
 
-    def get(self, product: Product) -> Product:
-        if product.id not in self.products:
-            raise ValueError(
-                f'Failed to retrieve product: No product with ID {product.id} found.'
-            )
-        return self.products[product.id]
+    def get(self, id: str) -> Product:
+        if id not in self.products:
+            raise ValueError(f'No product with ID "{id}"')
+        return self.products[id]
 
     def get_all(self) -> list[Product]:
         if not self.products:
-            raise ValueError(
-                'Failed to retrieve products: No products are currently available.'
-            )
+            raise ValueError('No products available.')
         return list(self.products.values())
 
-    def add(self, product: Product) -> None:
-        if product.id in self.products:
-            raise ValueError(
-                f'Failed to add product: A product with ID {product.id} already exists.'
-            )
+    def add(self, product: Product) -> Product:
+        if any(
+            product.name.lower() == existing.name.lower()
+            for existing in self.products.values()
+        ):
+            raise ValueError(f'Product with name "{product.name}" already exists')
         self.products[product.id] = product
+        return product
 
     def update(self, product: Product) -> None:
-        if product.id not in self.products:
-            raise ValueError(
-                f'Failed to update product: No product with ID {product.id} found.'
-            )
-        self.products[product.id] = product
+        NotImplementedError('Method not implemented')
 
-    def delete(self, product: Product) -> None:
-        if product.id not in self.products:
-            raise ValueError(
-                f'Failed to delete product: No product with ID {product.id} found.'
-            )
-        del self.products[product.id]
+    def delete(self, id: str) -> Product:
+        if id not in self.products:
+            raise ValueError(f'No product with ID "{id}"')
+        return self.products.pop(id)
