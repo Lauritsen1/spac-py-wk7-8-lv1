@@ -7,11 +7,11 @@ T = TypeVar('T')
 class Repository(ABC, Generic[T]):
 
     @abstractmethod
-    def get(self, id: str) -> T:
+    def find(self, id: str) -> T:
         pass
 
     @abstractmethod
-    def get_all(self) -> list[T]:
+    def find_many(self) -> list[T]:
         pass
 
     @abstractmethod
