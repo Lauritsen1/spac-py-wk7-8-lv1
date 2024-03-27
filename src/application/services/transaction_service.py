@@ -16,11 +16,13 @@ class TransactionService:
         return self.transaction_repository.find_many()
 
     def restock(self, product: Product, quantity: int) -> Transaction:
+        product.stock.add(quantity)
         id = str(uuid.uuid4())
         transaction = Transaction(id, TransactionType.RESTOCK, product, quantity)
         return self.transaction_repository.add(transaction)
 
     def sell(self, product: Product, quantity: int) -> Transaction:
+        product.stock.remove(quantity)
         id = str(uuid.uuid4())
         transaction = Transaction(
             id, TransactionType.SALE, product, product.stock.quantity - quantity
